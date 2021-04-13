@@ -8,8 +8,10 @@
 <button onclick="openMedia()">开启摄像头</button>
 <video id="video" width="500px" height="500px" autoplay="autoplay"></video>
 <canvas id="canvas" width="500px" height="500px"></canvas>
+药材<input  type="text" id="TCM">
 <button onclick="takePhoto()">拍照</button>
-<button onclick="downLoadImage('img','a.png')">保存</button>
+
+<button onclick=SavePhoto('img',document.getElementById('TCM').value)>保存</button>
 <img id="imgTag" src="" alt="imgTag">
 <button onclick="closeMedia()">关闭摄像头</button>
 <script>
@@ -20,7 +22,7 @@
             audio: true
         };
         //获得video摄像头
-        let video = document.getElementById('video');     
+        let video = document.getElementById('video');
         let promise = navigator.mediaDevices.getUserMedia(constraints);
         promise.then((mediaStream) => {
             mediaStreamTrack = typeof mediaStream.stop === 'function' ? mediaStream : mediaStream.getTracks()[1];
@@ -41,14 +43,16 @@
         // toDataURL  ---  可传入'image/png'---默认, 'image/jpeg'
         let img = document.getElementById('canvas').toDataURL("image/png");
         // 这里的img就是得到的图片
-        console.log('img-----', img);
+        //console.log('img-----', img);
         document.getElementById('imgTag').src=img;
     }
 
-function downLoadImage(img,name) {
+function SavePhoto(img,name) {
   var a = document.createElement("a");
-  a.href = img.src;
-  a.download = name;
+
+  a.href = document.getElementById('imgTag').src;
+  a.download= name;
+  a.click();
 }
 
     // 关闭摄像头
